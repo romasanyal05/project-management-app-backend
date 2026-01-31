@@ -45,7 +45,7 @@ app.get("/users", async (req, res) => {
 // ✅ Add new user (Register)
 app.post("/users", async (req, res) => {
   try {
-    const { name, email, password, role, token} = req.body;
+    const { name, email, password, role = "user"}  = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({ ok: false, error: "name, email, password required" });
