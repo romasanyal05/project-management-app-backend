@@ -274,6 +274,19 @@ app.post("/tickets", async (req, res) => {
      }); 
    }
     });
+
+    // Get all tickets
+app.get("/tickets", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM tickets ORDER BY id DESC"
+    );
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error fetching tickets");
+  }
+});
 // GetTickets by Project
 app.get("/tickets/project/:projectId", async (req, res) => {
   try {
