@@ -274,9 +274,11 @@ app.post("/tickets", async (req, res) => {
     });
   } catch (err) {
     console.log("ERROR:", err);
-    res.status(500).send("Error creating ticket");
-  }
-});
+    res.status(500).json({
+      ok: false,
+     error: err.message 
+    });
+ }
 
 // GetTickets by Project
 app.get("/tickets/project/:projectId", async (req, res) => {
