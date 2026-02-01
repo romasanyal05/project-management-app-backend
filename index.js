@@ -103,7 +103,7 @@ app.post("/login", async (req, res) => {
 
 const user = result.rows[0];
 
-res.json({
+return res.status(200).json({
   ok: true,
   user: {
     id: user.id,
