@@ -11,11 +11,8 @@ app.use(express.json());
 console.log("✅ index.js loaded");
 // ✅ PostgreSQL Pool (LOCAL)
 const pool = new Pool({
-  host: "localhost",
-  port: 5432,
-  user: "postgres",
-  password: "tashidelek",   // <-- yahan apna postgres password डालो
-  database: "project_management",
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
 });
 // ✅ Home route
 app.get("/", (req, res) => res.send("Backend Running ✅"));
