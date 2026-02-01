@@ -254,15 +254,12 @@ app.post("/tickets", async (req, res) => {
   try {
     const { title, description, priority, project_id, assigned_to } = req.body;
 
-    // convert project_id to integer (important)
-    const projectIdInt = project_id ? parseInt(project_id) : null;
-
     const result = await pool.query(
       `INSERT INTO tickets
        (title, description, status, project_id, priority, assigned_to)
        VALUES ($1,$2,$3,$4,$5,$6)
        RETURNING *`,
-      [title, description, "open", projectIdInt, priority, assigned_to]
+      [title, description,status || "open", project_id, priority, assigned_to]
     );
 
     res.status(201).json({
