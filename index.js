@@ -277,8 +277,9 @@ app.post("/tickets", async (req, res) => {
     res.status(500).json({
       ok: false,
      error: err.message 
+    }
     });
- }
+ 
 
 // GetTickets by Project
 app.get("/tickets/project/:projectId", async (req, res) => {
