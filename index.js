@@ -252,14 +252,18 @@ app.put("/projects/:id", async (req, res) => {
 // Create Ticket
 app.post("/tickets", async (req, res) => {
   try {
-    console.log("BODY:", req.body);
+    const { title, description, priority, project_id, assigned_to } = req.body;
 
-    const { title, description,priority,status, project_id, assigned_to} = req.body;
+    // convert project_id to integer (important)
+    const projectIdInt = project_id ? parseInt(project_id) : null;
 
     const result = await pool.query(
-      `INSERT INTO tickets (title, description, project_id,  priority,status, assigned_to) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [title,description,"open",project_id,priority,assigned_to] 
-       );
+      `INSERT INTO tickets
+       (title, description, status, project_id, priority, assigned_to)
+       VALUES ($1,$2,$3,$4,$5,$6)
+       RETURNING *`,
+      [title, description, "open", projectIdInt, priority, assigned_to]
+    );
 
     res.status(201).json({
       ok: true,
@@ -267,13 +271,14 @@ app.post("/tickets", async (req, res) => {
     });
 
   } catch (err) {
-    console.log("ERROR:", err);
+    console.error("ERROR creating ticket:", err);
+
     res.status(500).json({
       ok: false,
-     error: err.message 
-     }); 
-   }
+      error: err.message
     });
+  }
+});
 
     // Get all tickets
 app.get("/tickets", async (req, res) => {
