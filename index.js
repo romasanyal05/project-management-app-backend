@@ -257,8 +257,8 @@ app.post("/tickets", async (req, res) => {
     const { title, description,priority,status, project_id, assigned_to} = req.body;
 
     const result = await pool.query(
-      "INSERT INTO tickets (title, description, project_id,  priority,status, assigned_to) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [title,description,status,project_id,priority,assigned_to] 
+      `INSERT INTO tickets (title, description, project_id,  priority,status, assigned_to) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [title,description,"open",project_id,priority,assigned_to] 
        );
 
     res.status(201).json({
