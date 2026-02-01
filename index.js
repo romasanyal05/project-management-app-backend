@@ -257,30 +257,23 @@ app.post("/tickets", async (req, res) => {
     const { title, description,priority,status, project_id, assigned_to} = req.body;
 
     const result = await pool.query(
-      "INSERT INTO tickets (title, description, project_id,  priority,status, assigned_to) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [
-        title,
-        description || "",
-        status || "open",
-        project_id || null,
-        priority || "medium",
-        assigned_to || null
-      ]
-    );
+      "INSER T INTO tickets (title, description, project_id,  priority,status, assigned_to) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      [title,description,status,project_id,priority,assigned_to] 
+       );
 
     res.status(201).json({
       ok: true,
       ticket: result.rows[0]
     });
+    
   } catch (err) {
     console.log("ERROR:", err);
     res.status(500).json({
       ok: false,
      error: err.message 
-    }
+     }); 
+   }
     });
- 
-
 // GetTickets by Project
 app.get("/tickets/project/:projectId", async (req, res) => {
   try {
