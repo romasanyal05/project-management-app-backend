@@ -253,13 +253,14 @@ app.put("/projects/:id", async (req, res) => {
 app.post("/tickets", async (req, res) => {
   try {
     const { title, description, priority,status, project_id, assigned_to } = req.body;
-
+const project_id = 1;   // <-- FIXED
+    const status = "open";
     const result = await pool.query(
       `INSERT INTO tickets
        (title, description, status, project_id, priority, assigned_to)
        VALUES ($1,$2,$3,$4,$5,$6)
        RETURNING *`,
-      [title, description,status || "open", project_id, priority, assigned_to]
+      [title, description,status, project_id, priority, assigned_to]
     );
 
     res.status(201).json({
