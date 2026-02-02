@@ -252,7 +252,7 @@ app.put("/projects/:id", async (req, res) => {
 // Create Ticket
 app.post("/tickets", async (req, res) => {
   try {
-    const { title, description, priority, project_id, assigned_to } = req.body;
+    const { title, description, priority,status, project_id, assigned_to } = req.body;
 
     const result = await pool.query(
       `INSERT INTO tickets
